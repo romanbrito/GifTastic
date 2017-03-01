@@ -13,36 +13,27 @@ function displaytopicInfo() {
     url: queryURL,
     method: "GET"
   }).done(function(response) {
+          var topicDiv = $("<div>");
 
-    // Creating a div to hold the topic
-    var topicDiv = $("<div class='topic'>");
-
-    // Storing the rating data
-    var rating = response.data[0].rating;
-
-    // Creating an element to have the rating displayed
-    var pOne = $("<p>").text("Rating: " + rating);
-
-    // Displaying the rating
-    topicDiv.append(pOne);
-
-// still image
-    var imageUrlStill = response.data[0].images.fixed_width_still.url;
-    var imageStil = $("<img>");
-    imageStil.attr("src", imageUrlStill);
-    topicDiv.append(imageStil);
-
-    // moving image
-    var imageUrlMove = response.data[0].images.fixed_width.url;
-    var imageMove = $("<img>");
-    imageMove.attr("src", imageUrlMove);
-
-    // Appending the plot
-    topicDiv.append(imageMove);
+    for (var i = 0; i < response.data.length; i++) {
+      console.log(i);
+      var image = $("<img>");
+      var rating = response.data[i].rating;
+      var imageUrlStill = response.data[i].images.fixed_width_still.url;
+      var imageUrlMove = response.data[i].images.fixed_width.url;
+      image.attr("class", "gif");
+      image.attr("src", imageUrlStill);
+      image.attr("data-still", imageUrlStill);
+      image.attr("data-animate", imageUrlMove);
+      image.attr("data-state", "still");
+      var pRating = $("<p>").text("Rating: " + rating);
+      topicDiv.append(pRating);
+      topicDiv.append(image);
+    }
 
 
     // Putting the entire topic above the previous topics
-    $("#topics-view").prepend(topicDiv);
+    $("#topics-view").append(topicDiv);
   });
 
 }
@@ -86,6 +77,20 @@ $("#add-topic").on("click", function(event) {
 
 // Adding a click event listener to all elements with a class of "topic"
 $(document).on("click", ".topic", displaytopicInfo);
+
+$(document).on("click", ".gif", function() {
+
+    var state = $(this).attr("data-state");
+
+    if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+    } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+    }
+});
+
 
 // Calling the renderButtons function to display the intial buttons
 renderButtons();
