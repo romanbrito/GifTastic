@@ -3,10 +3,12 @@ var topics = ["Pikachu", "Celebi", "Eevee", "Snorlax", "Ditto", "Charizard"];
 
  // displaytopicInfo function re-renders the HTML to display the appropriate content
 function displaytopicInfo() {
-
+$("#topics-view").empty();
   var topic = $(this).attr("data-name");
+  const NoResults = "&limit=10";
+  const rating = "&rating=pg";
 
-  var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=dc6zaTOxFJmzC";
+  var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + NoResults + rating + "&api_key=dc6zaTOxFJmzC";
 
   // Creating an AJAX call for the specific topic button being clicked
   $.ajax({
@@ -21,7 +23,7 @@ function displaytopicInfo() {
       var rating = response.data[i].rating;
       var imageUrlStill = response.data[i].images.fixed_width_still.url;
       var imageUrlMove = response.data[i].images.fixed_width.url;
-      image.attr("class", "gif");
+      image.attr("class", "gif col-md-4");
       image.attr("src", imageUrlStill);
       image.attr("data-still", imageUrlStill);
       image.attr("data-animate", imageUrlMove);
@@ -52,7 +54,7 @@ function renderButtons() {
     // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
     var a = $("<button>");
     // Adding a class of topic to our button
-    a.addClass("topic");
+    a.addClass("topic btn btn-primary");
     // Adding a data-attribute
     a.attr("data-name", topics[i]);
     // Providing the initial button text
