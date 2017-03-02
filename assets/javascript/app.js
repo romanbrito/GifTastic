@@ -8,7 +8,7 @@ $("#topics-view").empty();
   const NoResults = "&limit=10";
   const rating = "&rating=pg";
 
-  var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + NoResults + rating + "&api_key=dc6zaTOxFJmzC";
+  var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + NoResults + rating + "&api_key=dc6zaTOxFJmzC";
 
   // Creating an AJAX call for the specific topic button being clicked
   $.ajax({
